@@ -1,7 +1,7 @@
+
 using Scalar.AspNetCore;
 using IaWeek.Extensions;
 var builder = WebApplication.CreateBuilder(args);
-
 builder.AddOpenAI();
 // Add services to the container.
 
