@@ -12,7 +12,7 @@ namespace IaWeek.Extensions
 
             if(string.IsNullOrEmpty(apiKey))
             {
-                throw new InvalidOperationException(" environment variable is not set.");
+                throw new InvalidOperationException("OpenAI environment variable is not set.");
             }
 
             var openAiClient = new OpenAIClient(apiKey);
