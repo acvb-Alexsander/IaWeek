@@ -6,13 +6,13 @@ namespace IaWeek.Extensions
     {
         public static WebApplicationBuilder AddOpenAI(this WebApplicationBuilder builder) 
         {
-           // var apiKey = builder.Configuration["OPENAI_API_KEY"];
+            var apiKey = builder.Configuration["OpenAi:Key"];
 
-            var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
+            
 
             if(string.IsNullOrEmpty(apiKey))
             {
-                throw new InvalidOperationException("OPENAI_API_KEY environment variable is not set.");
+                Console.WriteLine("Warning: OPENAI_API_KEY environment variable is not set. OpenAI client will not be configured.");
             }
 
             var openAiClient = new OpenAIClient(apiKey);
