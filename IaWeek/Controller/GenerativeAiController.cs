@@ -19,11 +19,30 @@ namespace IaWeek.Controller
         {
             if (string.IsNullOrEmpty(prompt))
             {
-                return BadRequest("Prompt cannot be empty.");
+                return BadRequest("the Prompt Parameter is required and cannot be empty.");
             }
             try
             {
                 var response = await _chatService.GetChatResponseAsync(prompt);
+                return Ok(new { response });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (not implemented here)
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
+        }
+        [HttpGet("api/ask-ai-options")]
+
+        public async Task<IActionResult> AskAiOptions([FromQuery] string prompt)
+        {
+            if (string.IsNullOrEmpty(prompt))
+            {
+                return BadRequest("the Prompt Parameter is required and cannot be empty.");
+            }
+            try
+            {
+                var response = await _chatService.GetChatResponseWithOptionsAsync(prompt);
                 return Ok(new { response });
             }
             catch (Exception ex)
