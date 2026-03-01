@@ -1,5 +1,8 @@
+using Scalar.AspNetCore;
+using IaWeek.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddOpenAI();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -12,6 +15,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseAuthorization();
