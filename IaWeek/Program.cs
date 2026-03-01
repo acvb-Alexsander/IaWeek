@@ -1,8 +1,13 @@
 
 using Scalar.AspNetCore;
 using IaWeek.Extensions;
+using IaWeek.Services;
 var builder = WebApplication.CreateBuilder(args);
+
 builder.AddOpenAI();
+
+builder.Services.AddSingleton<ChatService>();
+
 // Add services to the container.
 
 builder.Services.AddControllers();
