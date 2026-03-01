@@ -8,11 +8,11 @@ namespace IaWeek.Extensions
         {
            // var apiKey = builder.Configuration["OPENAI_API_KEY"];
 
-            var apiKey = Environment.GetEnvironmentVariable("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");
+            var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
 
             if(string.IsNullOrEmpty(apiKey))
             {
-                throw new InvalidOperationException("OpenAI environment variable is not set.");
+                throw new InvalidOperationException("OPENAI_API_KEY environment variable is not set.");
             }
 
             var openAiClient = new OpenAIClient(apiKey);
