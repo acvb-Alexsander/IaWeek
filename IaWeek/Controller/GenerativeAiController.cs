@@ -7,10 +7,12 @@ namespace IaWeek.Controller
     public class GenerativeAiController : ControllerBase
     {
         private readonly ChatService _chatService;
+        private readonly RecipeService _recipeService;
 
-        public GenerativeAiController(ChatService chatService)
+        public GenerativeAiController(ChatService chatService, RecipeService recipeService  )
         {
             _chatService = chatService;
+            _recipeService = recipeService;
         }
 
         [HttpGet("api/ask-ai")]
@@ -21,16 +23,10 @@ namespace IaWeek.Controller
             {
                 return BadRequest("the Prompt Parameter is required and cannot be empty.");
             }
-            try
-            {
-                var response = await _chatService.GetChatResponseAsync(prompt);
-                return Ok(new { response });
-            }
-            catch (Exception ex)
-            {
-                // Log the exception (not implemented here)
-                return StatusCode(500, "An error occurred while processing your request.");
-            }
+            
+            var response = await _chatService.GetChatResponseAsync(prompt);
+            return Ok(new { response });
+          
         }
         [HttpGet("api/ask-ai-options")]
 
@@ -40,16 +36,28 @@ namespace IaWeek.Controller
             {
                 return BadRequest("the Prompt Parameter is required and cannot be empty.");
             }
-            try
+            
+            
+            var response = await _chatService.GetChatResponseWithOptionsAsync(prompt);
+            return Ok(new { response });
+            
+            
+        }
+        [HttpGet("api/recipe-creator")]
+
+        public async Task<IActionResult> GenerateRecipe(
+            [FromQuery] string ingredients,
+            [FromQuery] string cuisine,
+            [FromQuery] string restrictions = "none")
+        {
+            if (string.IsNullOrEmpty(ingredients))
             {
-                var response = await _chatService.GetChatResponseWithOptionsAsync(prompt);
-                return Ok(new { response });
+                return BadRequest("the 'ingredients' Parameter is required and cannot be empty.");
             }
-            catch (Exception ex)
-            {
-                // Log the exception (not implemented here)
-                return StatusCode(500, "An error occurred while processing your request.");
-            }
+            
+            var response = await _recipeService.GetRecipeAsync(ingredients, cuisine, restrictions);
+            return Ok(new { response });
+           
         }
     }
 }
