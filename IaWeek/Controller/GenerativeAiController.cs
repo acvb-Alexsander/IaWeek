@@ -8,11 +8,13 @@ namespace IaWeek.Controller
     {
         private readonly ChatService _chatService;
         private readonly RecipeService _recipeService;
+        private readonly ImageService _imageService;
 
-        public GenerativeAiController(ChatService chatService, RecipeService recipeService  )
+        public GenerativeAiController(ChatService chatService, RecipeService recipeService, ImageService imageService )
         {
             _chatService = chatService;
             _recipeService = recipeService;
+            _imageService = imageService;
         }
 
         [HttpGet("api/ask-ai")]
@@ -57,6 +59,25 @@ namespace IaWeek.Controller
             
             var response = await _recipeService.GetRecipeAsync(ingredients, cuisine, restrictions);
             return Ok(new { response });
+           
+        }
+        [HttpGet("api/generate-Image")]
+
+        public async Task<IActionResult> GenerateImage(
+            [FromQuery] string prompt,
+            [FromQuery] string quality = "hd",
+            [FromQuery] int n = 1,
+            [FromQuery] int hight = 1024,
+            [FromQuery] int width = 1024
+            )
+        {
+            if (string.IsNullOrEmpty(prompt))
+            {
+                return BadRequest("the 'prompt' Parameter is required and cannot be empty.");
+            }
+            
+            var imageUrls = await _imageService.GenerateImageAsync(prompt, quality, n, hight, width);
+            return Ok(new { imageUrls });
            
         }
     }
