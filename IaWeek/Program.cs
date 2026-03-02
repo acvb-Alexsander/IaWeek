@@ -8,6 +8,8 @@ builder.AddOpenAI();
 
 builder.Services.AddSingleton<ChatService>();
 builder.Services.AddSingleton<RecipeService>();
+builder.Services.AddSingleton<ImageService>();
+
 
 // Add services to the container.
 
